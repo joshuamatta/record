@@ -185,13 +185,20 @@ class MediaRecorderDelegate extends RecorderDelegate {
     if (_chunks.isNotEmpty) {
       _elapsedTime.stop();
 
-      final blob = await fixWebmDuration(
-        web.Blob(
-          _chunks.toJS,
-          web.BlobPropertyBag(type: _defaultMimeType),
+      // final blob = await fixWebmDuration(
+      //   web.Blob(
+      //     _chunks.toJS,
+      //     web.BlobPropertyBag(type: _defaultMimeType),
+      //   ),
+      //   _elapsedTime.elapsedMilliseconds.toJS,
+      // ).toDart;
+
+      var blob = web.Blob(
+        _chunks.toJS,
+        web.BlobPropertyBag(
+          type: _mediaRecorder?.mimeType ?? 'audio/webm;codecs=opus',
         ),
-        _elapsedTime.elapsedMilliseconds.toJS,
-      ).toDart;
+      );
 
       audioUrl = web.URL.createObjectURL(blob);
     }
